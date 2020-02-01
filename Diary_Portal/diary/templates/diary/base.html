@@ -9,7 +9,6 @@
 	<table class="table table-hover table-dark">
   <thead>
     <tr>
-      <th scope="col">Sr. No.</th>
       <th scope="col">Company Name</th>
       <th scope="col">POC</th>
       <th scope="col">CPOC</th>
@@ -17,8 +16,20 @@
     </tr>
   </thead>
   <tbody>
+    {%for company in company%}
     <tr>
+      <th scope="row">{{company.CompanyName}}</th>
+      <td>{{company.POC}}</td>
+      <td>{{company.CPOC}}</td>
+      <td>{{company.Remarks}}
+
+      <button class="btn btn-primary" type="submit">Add New</button></td>
+
+
     </tr>
+
+    {%endfor%}
+
 </tbody>
 </table>
 
