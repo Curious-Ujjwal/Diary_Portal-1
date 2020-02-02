@@ -5,7 +5,14 @@
 	<title>Diary Portal</title>
 </head>
 <body>
-	
+
+    <div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+  </div>
+</div>
+
 	<table class="table table-hover table-dark">
   <thead>
     <tr>
@@ -21,8 +28,8 @@
       <th scope="row">{{company.CompanyName}}</th>
       <td>{{company.POC}}</td>
       <td>{{company.CPOC}}</td>
-      <td>{{company.Remarks}}
-      <a href="{%url 'remarks' pk=company.pk %}">View All</a></td>
+      <td>
+      <a target="_self" class="btn btn-primary" role="button" href="{%url 'remarks' pk=company.pk %}">View All</a></td>
     </tr>
     {%endfor%}
 
