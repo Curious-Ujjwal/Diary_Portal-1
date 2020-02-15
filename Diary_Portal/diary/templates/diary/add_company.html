@@ -4,29 +4,14 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<title>Diary Portal</title>
 </head>
-<body>
-
-	<table class="table table-hover table-dark">
-  <thead>
-    <tr>
-      <th scope="col">Remarks</th>
-      <th scope="col">CPOC</th>
-      <th scope="col">Last Updated</th>
-
-    </tr>
-  </thead>
-  <tbody>
-    {%for remark in remark%}
-    <tr>
-      <th scope="row">{{remark.remark}}</th>
-      <td>{{remark.CPOC}}</td>
-      <td>{{remark.datetime}}</td>
-
-    </tr>
-    {%endfor%}
-
-</tbody>
-</table>
+<body style="padding: 2rem;">
+    <div class="column">
+    <form action="" method="post" name="placement_edit">
+    {{form.as_p}}
+    {% csrf_token%}
+    <input type="submit" value="SAVE">
+    </form>
+    </div>
 
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
