@@ -6,11 +6,12 @@
 </head>
 <body style="padding: 2rem;">
     <h1>{{c.CompanyName}}</h1>
+    <br>
     <div class="column">
     <form action="" method="post" name="placement_edit">
     {{form.as_p}}
     {% csrf_token%}
-    <input type="submit" value="SAVE">
+    <input type="submit" value="SAVE" class="btn btn-danger">
     </form>
     </div>
 
