@@ -2,31 +2,40 @@
 <html>
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<title>Diary Portal</title>
+	<style>
+    table, td, th, thead{
+      border: 3px solid black;
+    }
+    th, td{
+      font-size: 1.2em;
+    }
+  </style>
+  <title>Diary Portal</title>
 </head>
-<body style="padding: 2rem;">
+<body style="padding: 2rem; background-color: #8dbdd8;">
 
 
       <a target="_self" class="btn btn-primary" role="button" href="{%url 'intern_add_company'  %}">Add Company</a></td>
-
-	<table class="table table-hover table-dark">
+      <br><br>
+	<table class="table table-hover">
   <thead>
-    <tr>
-      <th scope="col">Company Name</th>
-      <th scope="col">POC</th>
-      <th scope="col">CPOC</th>
-      <th scope="col">Remarks</th>
+    <tr style="background-color: white;">
+      <th scope="col"><center>Company Name</center></th>
+      <th scope="col"><center>POC</center></th>
+      <th scope="col"><center>CPOC</center></th>
+      <th scope="col"><center>Remarks</center></th>
+      <th scope="col"><center>View All Remarks</center></th>
     </tr>
   </thead>
   <tbody>
     {%for company in company%}
     <tr class="clickable-row" data-href="{% url 'intern_company_edit' pk=company.pk  %}">
-      <th scope="row">{{company.CompanyName}}</th>
-      <td>{{company.POC}}</td>
-      <td>{{company.CPOC}}</td>
-      <td>{{company.TopRemark}}</td>
+      <th scope="row"><center>{{company.CompanyName}}</center></th>
+      <td><center>{{company.POC}}</center></td>
+      <td><center>{{company.CPOC}}</center></td>
+      <td><center>{{company.TopRemark}}</center></td>
       <td>
-      <a target="_self" class="btn btn-primary" role="button" href="{%url 'iremarks' pk=company.pk %}">View All Remarks</a></td>
+      <center><a target="_self" class="btn btn-primary" role="button" href="{%url 'iremarks' pk=company.pk %}" style="border-color: black; border-width: 2px;">View All Remarks</a></center></td>
     </tr>
     {%endfor%}
 
