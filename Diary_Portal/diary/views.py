@@ -93,3 +93,31 @@ def add_intern_company(request):
     else:
         form = forms.add_company()
         return render(request,'diary/add_company.html',{'form':form})
+
+def searchPlacement(request):
+    print('I m Here')
+    if request.method == 'POST':
+        print("success")
+        search_text = request.POST['search_text1']
+        all_company =(company.objects.filter(CompanyName__contains=search_text)|company.objects.filter(POC__contains=search_text))
+        return render(request, 'diary/ajax_results.html', {'all_company': all_company})
+    else:
+        print("fail")
+        search_text = ''
+        all_company = company.objects.all()
+        return render(request, 'diary/ajax_results.html', {'all_company':all_company})
+
+
+def searchIntern(request):
+    print('I m Here')
+    if request.method == 'POST':
+        print("success")
+        search_text = request.POST['search_text2']
+        all_company = (company.objects.filter(CompanyName__contains=search_text) | company.objects.filter(POC__contains=search_text))
+        return render(request, 'diary/ajax_results.html', {'all_company': all_company})
+    else:
+        print("fail")
+        search_text = ''
+        all_company = company.objects.all()
+        return render(request, 'diary/ajax_results.html', {'all_company': all_company})
+

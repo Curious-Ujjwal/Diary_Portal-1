@@ -11,5 +11,7 @@ urlpatterns = [
     url(r'^placement/(?P<pk>\d+)/$', views.save_changes_view, name='placement_company_edit'),
     url(r'placement_add_company/$', views.add_placement_company, name='placement_add_company'),
     url(r'intern_add_company/$', views.add_intern_company, name='intern_add_company'),
+ 	url(r'placement/search/$', views.searchPlacement, name='search'),
+    url(r'intern/search/$', views.searchIntern, name='search'),
 
 ]
