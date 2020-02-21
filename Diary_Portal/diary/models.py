@@ -16,6 +16,7 @@ class remarks(models.Model):
     remark = models.TextField()
     datetime = models.DateTimeField(auto_now=True)
     CPOC = models.CharField(max_length=100)
+    POC = models.CharField(max_length=100)
     def __str__(self):
         return self.company.CompanyName
 

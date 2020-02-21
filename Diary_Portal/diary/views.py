@@ -71,7 +71,7 @@ def add_placement_company(request):
             c.placement = True
             c.TopRemark = form.cleaned_data['Remark']
             c.save()
-            remarks(company=c,remark=c.TopRemark,CPOC=c.CPOC).save()
+            remarks(company=c,remark=c.TopRemark,CPOC=c.CPOC,POC=c.POC).save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
         form = forms.add_company()
@@ -88,7 +88,7 @@ def add_intern_company(request):
             c.placement = False
             c.TopRemark = form.cleaned_data['Remark']
             c.save()
-            remarks(company=c,remark=c.TopRemark,CPOC=c.CPOC).save()
+            remarks(company=c,remark=c.TopRemark,CPOC=c.CPOC,POC=c.POC).save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
         form = forms.add_company()
@@ -100,12 +100,20 @@ def searchPlacement(request):
         print("success")
         search_text = request.POST['search_text1']
         all_company =(company.objects.filter(CompanyName__contains=search_text)|company.objects.filter(POC__contains=search_text))
-        return render(request, 'diary/ajax_results.html', {'all_company': all_company})
+        temp = all_company
+        for c in all_company:
+            if c.placement == False:
+                temp = temp.exclude(pk=c.pk)
+        return render(request, 'diary/ajax_results1.html', {'all_company': temp})
     else:
         print("fail")
         search_text = ''
         all_company = company.objects.all()
-        return render(request, 'diary/ajax_results.html', {'all_company':all_company})
+        temp = all_company
+        for c in all_company:
+            if c.placement == False:
+                temp = temp.exclude(pk=c.pk)
+        return render(request, 'diary/ajax_results1.html', {'all_company': temp})
 
 
 def searchIntern(request):
@@ -114,10 +122,18 @@ def searchIntern(request):
         print("success")
         search_text = request.POST['search_text2']
         all_company = (company.objects.filter(CompanyName__contains=search_text) | company.objects.filter(POC__contains=search_text))
-        return render(request, 'diary/ajax_results.html', {'all_company': all_company})
+        temp = all_company
+        for c in all_company:
+            if c.placement == True:
+                temp = temp.exclude(pk=c.pk)
+        return render(request, 'diary/ajax_results2.html', {'all_company': temp})
     else:
         print("fail")
         search_text = ''
         all_company = company.objects.all()
-        return render(request, 'diary/ajax_results.html', {'all_company': all_company})
+        temp = all_company
+        for c in all_company:
+            if c.placement == True:
+                temp = temp.exclude(pk=c.pk)
+        return render(request, 'diary/ajax_results2.html', {'all_company': temp})
 

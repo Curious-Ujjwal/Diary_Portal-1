@@ -18,6 +18,7 @@
   <thead>
     <tr style="background-color: white;">
       <th scope="col"><center>Remarks</center></th>
+      <th scope="col"><center>POC</center></th>
       <th scope="col"><center>CPOC</center></th>
       <th scope="col"><center>Last Updated</center></th>
 
@@ -27,6 +28,7 @@
     {%for remark in remark%}
     <tr>
       <th scope="row"><center>{{remark.remark}}</center></th>
+      <td><center>{{remark.POC}}</center></td>
       <td><center>{{remark.CPOC}}</center></td>
       <td><center>{{remark.datetime}}</center></td>
 

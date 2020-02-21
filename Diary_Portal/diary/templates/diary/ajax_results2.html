@@ -11,11 +11,11 @@
   </thead>
   <tbody>
     {%for company in all_company%}
-    <tr class="clickable-row" data-href="{% url 'placement_company_edit' pk=company.pk  %}">
+    <tr class="clickable-row" data-href="{% url 'intern_company_edit' pk=company.pk  %}">
       <th scope="row"><center>{{company.CompanyName}}</center></th>
       <td><center>{{company.POC}}</center></td>
       <td><center>{{company.CPOC}}</center></td>
-      <td><center>{{company.placement}}</center></td>
+      <td><center>{{company.TopRemark}}</center></td>
       <td>
       <center><a target="_self" class="btn btn-primary" role="button" href="{%url 'premarks' pk=company.pk %}" style="border-color: black; border-width: 2px;">View All Remarks</a></center></td>
     </tr>
