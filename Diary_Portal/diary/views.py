@@ -137,18 +137,20 @@ def searchIntern(request):
                 temp = temp.exclude(pk=c.pk)
         return render(request, 'diary/ajax_results2.html', {'all_company': temp})
 
-Placment_Username = "CCD1"
-Placment_Password = "pass1"
-Intern_Username = "CCD2"
-Intern_Password = "pass2"
+
+list_globals = globals()
+list_globals['Placement_Username'] = "CCD1"
+list_globals['Placement_Password'] = "pass1"
+list_globals['Intern_Username'] = "CCD2"
+list_globals['Intern_Password'] = "pass2"
 
 
 def Placement_Authenticate(request):
     if request.method=="POST":
         form = forms.authentication(request.POST)
         if form.is_valid():
-            if Placment_Username==form.cleaned_data['Username'] and Placment_Password==form.cleaned_data['Password']:
-                return render(request,'diary/placement_base.html')
+            if list_globals['Placement_Username']==form.cleaned_data['Username'] and list_globals['Placement_Password']==form.cleaned_data['Password']:
+                return getPlacement(request)
             else:
                 form = forms.authentication()
                 return render(request,'diary/Auth.html',{'form':form})
@@ -163,8 +165,8 @@ def Intern_Authenticate(request):
     if request.method=="POST":
         form = forms.authentication(request.POST)
         if form.is_valid():
-            if Intern_Username==form.cleaned_data['Username'] and Intern_Password==form.cleaned_data['Password']:
-                return render(request,'diary/intern_base.html')
+            if list_globals['Intern_Username']==form.cleaned_data['Username'] and list_globals['Intern_Password']==form.cleaned_data['Password']:
+                return getIntern(request)
             else:
                 form = forms.authentication()
                 return render(request, 'diary/Auth.html', {'form': form})
@@ -177,4 +179,48 @@ def Intern_Authenticate(request):
 
 
 
+def edit_Placement_ID(request):
+    if request.method=="POST":
+        form = forms.change_username_password(request.POST)
+        if form.is_valid():
+            if list_globals['Placement_Username']==form.cleaned_data['Current_Username'] and list_globals['Placement_Password']==form.cleaned_data['Current_Password']:
+                if form.cleaned_data['New_Password'] == form.cleaned_data['Confirm_Password']:
+                    list_globals['Placement_Username'] = form.cleaned_data['New_Username']
+                    list_globals['Placement_Password'] = form.cleaned_data['New_Password']
+                    return getPlacement(request)
+                else:
+                    form = forms.change_username_password()
+                    return render(request,'diary/edit_ID.html',{'form':form})
+            else:
+                form = forms.change_username_password()
+                return render(request, 'diary/edit_ID.html', {'form': form})
+        else:
+            form = forms.change_username_password()
+            return render(request, 'diary/edit_ID.html', {'form': form})
+    else:
+        form = forms.change_username_password()
+        return render(request, 'diary/edit_ID.html', {'form': form})
+
+
+def edit_Intern_ID(request):
+    if request.method=="POST":
+        form = forms.change_username_password(request.POST)
+        if form.is_valid():
+            if list_globals['Intern_Username']==form.cleaned_data['Current_Username'] and list_globals['Intern_Password']==form.cleaned_data['Current_Password']:
+                if form.cleaned_data['New_Password'] == form.cleaned_data['Confirm_Password']:
+                    list_globals['Intern_Username'] = form.cleaned_data['New_Username']
+                    list_globals['Intern_Password'] = form.cleaned_data['New_Password']
+                    return getPlacement(request)
+                else:
+                    form = forms.change_username_password()
+                    return render(request,'diary/edit_ID.html',{'form':form})
+            else:
+                form = forms.change_username_password()
+                return render(request, 'diary/edit_ID.html', {'form': form})
+        else:
+            form = forms.change_username_password()
+            return render(request, 'diary/edit_ID.html', {'form': form})
+    else:
+        form = forms.change_username_password()
+        return render(request, 'diary/edit_ID.html', {'form': form})
 

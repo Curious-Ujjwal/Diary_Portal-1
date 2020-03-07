@@ -14,6 +14,8 @@ urlpatterns = [
  	url(r'placement/search/$', views.searchPlacement, name='search'),
     url(r'intern/search/$', views.searchIntern, name='search'),
     url(r'placement/authentication/$',views.Placement_Authenticate,name='Placement_Authenticate'),
-    url(r'intern/authentication/$', views.Intern_Authenticate, name='Intern_Authenticate')
+    url(r'intern/authentication/$', views.Intern_Authenticate, name='Intern_Authenticate'),
+    url(r'placement/edit_ID/$', views.edit_Placement_ID, name='edit_Placement_ID'),
+    url(r'intern/edit_ID/$', views.edit_Intern_ID, name='edit_Intern_ID')
 
 ]
