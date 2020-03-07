@@ -10,3 +10,7 @@ class add_company(forms.Form):
     POC = forms.CharField(max_length=100)
     CPOC = forms.CharField(max_length=100)
     Remark = forms.CharField(widget=forms.Textarea)
+
+class authentication(forms.Form):
+    Username = forms.CharField(max_length=100)
+    Password = forms.CharField(max_length=100)

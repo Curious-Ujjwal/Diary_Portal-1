@@ -137,3 +137,44 @@ def searchIntern(request):
                 temp = temp.exclude(pk=c.pk)
         return render(request, 'diary/ajax_results2.html', {'all_company': temp})
 
+Placment_Username = "CCD1"
+Placment_Password = "pass1"
+Intern_Username = "CCD2"
+Intern_Password = "pass2"
+
+
+def Placement_Authenticate(request):
+    if request.method=="POST":
+        form = forms.authentication(request.POST)
+        if form.is_valid():
+            if Placment_Username==form.cleaned_data['Username'] and Placment_Password==form.cleaned_data['Password']:
+                return render(request,'diary/placement_base.html')
+            else:
+                form = forms.authentication()
+                return render(request,'diary/Auth.html',{'form':form})
+        else:
+            form = forms.authentication()
+            return render(request, 'diary/Auth.html', {'form': form})
+    else:
+        form = forms.authentication()
+        return render(request, 'diary/Auth.html', {'form': form})
+
+def Intern_Authenticate(request):
+    if request.method=="POST":
+        form = forms.authentication(request.POST)
+        if form.is_valid():
+            if Intern_Username==form.cleaned_data['Username'] and Intern_Password==form.cleaned_data['Password']:
+                return render(request,'diary/intern_base.html')
+            else:
+                form = forms.authentication()
+                return render(request, 'diary/Auth.html', {'form': form})
+        else:
+            form = forms.authentication()
+            return render(request, 'diary/Auth.html', {'form': form})
+    else:
+        form = forms.authentication()
+        return render(request, 'diary/Auth.html', {'form': form})
+
+
+
+
