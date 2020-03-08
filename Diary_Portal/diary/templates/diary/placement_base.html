@@ -22,28 +22,32 @@
   </style>
 	<title>Diary Portal</title>
 </head>
-<body style="padding: 2rem; background-color: #8dbdd8;">
+<body style="padding: 2rem; background-color: #1eb2a6;">
 
-
-      <a target="_self" class="btn btn-primary" role="button" href="{%url 'placement_add_company'  %}">Add Company</a>
-      <a target="_self" class="btn btn-primary" role="button" href="{%url 'edit_Placement_ID'  %}">Edit Placement ID</a>
-
+      <div class="container-fluid">
+        <nav class="navbar sticky-top navbar-dark">
+      <a target="_self" class="btn btn-primary" role="button" href="{%url 'placement_add_company'  %}" class="navbar-brand" style="border: 2px solid black;">Add Company</a>
+      <div class="search-box">
+  <form class="form-inline">
+  <input class="search-txt" type="text" placeholder="Search" name="search" id="search" style="border: 2px solid black; width: 300px;"> &ensp;
+  <a class="search-btn" href="#">
+    <i class="fas fa-search"></i>
+  </a>
+</form>
+</div>
+      <a target="_self" class="btn btn-primary" role="button" href="{%url 'edit_Placement_ID'  %}" class="navbar-brand" style="border: 2px solid black;">Edit Placement ID</a>
+    </nav>
       <br><br>
 
 {% csrf_token %}
 <!-- <input type="text" name="search" id="search" placeholder="Question or user"> -->
 
 <!-- <div class="wrapper"> -->
-<div class="search-box">
-  <input class="search-txt" type="text" placeholder="Type to search" name="search" id="search">
-  <a class="search-btn" href="#">
-    <i class="fas fa-search"></i>
-  </a>
-</div>
+
 <div id="search-results">
 
 </div>
-
+</div>
 
 <script>
 
