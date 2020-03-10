@@ -1,9 +1,9 @@
 from django import forms
 
 class save_changes(forms.Form):
-    POC = forms.CharField(max_length=100)
-    CPOC = forms.CharField(max_length=100)
-    Remark = forms.CharField(widget=forms.Textarea)
+    POC = forms.CharField(max_length=100, widget=forms.Textarea(attrs={'rows':1, 'cols': 55}))
+    CPOC = forms.CharField(max_length=100, widget=forms.Textarea(attrs={'rows':1, 'cols': 55}))
+    Remark = forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'cols':55}))
 
 class add_company(forms.Form):
     CompanyName = forms.CharField(max_length=100, widget=forms.Textarea(attrs={'rows':1, 'cols': 55}))
