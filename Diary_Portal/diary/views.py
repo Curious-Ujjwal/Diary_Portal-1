@@ -1,43 +1,102 @@
 from django.shortcuts import render
 from .models import company,remarks
-from django.http import HttpResponseRedirect
 from . import forms
-# Create your views here.
+from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
+
+
+def session_logout(request):
+	logout(request)
+	return HttpResponseRedirect(reverse('main_page'))
+
 def getPlacement(request):
-    list = company.objects.all()
-    final1 = []
-    for r in list:
-        if r.placement == True:
-            final1.append(r)
-    return render(request,'diary/placement_base.html',{'company':final1})
+    print("Entered in getPlacement")
+    list = company.objects.filter(placement=True)
+    if request.POST:
+        print("CHECK1")
+        print('post', request.POST)
+        username = request.POST.get('Username')
+        password = request.POST.get('Password')
+        print('{} {}'.format(username, password))
+        user = authenticate(username=username, password=password)
+        if user and user.first_name=="PLACEMENT":
+            print("CHECK2")
+            if user.is_active:
+                print("CHECK3")
+                login(request, user)
+                return render(request, 'diary/placement_base.html', {'company': list})
+            else:
+                print("CHECK4")
+                messages.error(request, 'Invalid Details')
+                form = forms.authentication()
+                return render(request, 'diary/Auth.html', {'form': form})
+        else:
+            print("CHECK5")
+            messages.error(request, 'Invalid Details')
+            form = forms.authentication()
+            return render(request, 'diary/Auth.html', {'form': form})
+    else:
+        print("CHECK6")
+        form = forms.authentication()
+        return render(request, 'diary/Auth.html', {'form': form})
+
 
 def getIntern(request):
-    list = company.objects.all()
-    final1 = []
-    for r in list:
-        if r.placement == False:
-            final1.append(r)
-    return render(request,'diary/intern_base.html',{'company':final1})
+    list = company.objects.filter(placement=False)
+    if request.POST:
+        print("CHECK1")
+        print('post', request.POST)
+        username = request.POST.get('Username')
+        password = request.POST.get('Password')
+        print('{} {}'.format(username, password))
+        user = authenticate(username=username, password=password)
+        if user and user.first_name=="INTERN":
+            print("CHECK2")
+            if user.is_active:
+                print("CHECK3")
+                login(request, user)
+                return render(request, 'diary/intern_base.html', {'company': list})
+            else:
+                print("CHECK4")
+                messages.error(request, 'Invalid Details')
+                form = forms.authentication()
+                return render(request, 'diary/Auth.html', {'form': form})
+        else:
+            print("CHECK5")
+            messages.error(request, 'Invalid Details')
+            form = forms.authentication()
+            return render(request, 'diary/Auth.html', {'form': form})
+    else:
+        print("CHECK6")
+        form = forms.authentication()
+        return render(request, 'diary/Auth.html', {'form': form})
 
 def placement_edit(request,cpk):
     c = company.objects.get(pk=cpk)
     final1 = []
-    final1.append(c);
+    final1.append(c)
     return render(request, 'diary/edit_company.html', {'company': final1})
 
 def getmainpage(request):
-    return render(request,'diary/placement_or_intern.html')
+    if request.user.is_authenticated:
+        print("Authenticated")
+        print('{} {}',request.user.username)
+        if request.user.first_name=="INTERN":
+            return render(request, 'diary/intern_base.html')
+        if request.user.first_name=="PLACEMENT":
+            return render(request, 'diary/placement_base.html')
+    else:
+        print("Not Authenticated")
+        return render(request,'diary/placement_or_intern.html')
 
 
 def getremarks(request,pk):
     c = company.objects.get(pk=pk)
-    remark = remarks.objects.all()
-    final =[]
-    for r in remark:
-        if r.company == c:
-            final.append(r)
-    final.reverse()
-    return render(request,'diary/company_remarks.html',{'remark':final})
+    remark = remarks.objects.filter(company=c).order_by('datetime').reverse()
+    return render(request,'diary/company_remarks.html',{'remark':remark})
 
 
 def save_changes_view(request,pk):
@@ -138,89 +197,20 @@ def searchIntern(request):
         return render(request, 'diary/ajax_results2.html', {'all_company': temp})
 
 
-list_globals = globals()
-list_globals['Placement_Username'] = "CCD1"
-list_globals['Placement_Password'] = "pass1"
-list_globals['Intern_Username'] = "CCD2"
-list_globals['Intern_Password'] = "pass2"
 
-
-def Placement_Authenticate(request):
-    if request.method=="POST":
-        form = forms.authentication(request.POST)
-        if form.is_valid():
-            if list_globals['Placement_Username']==form.cleaned_data['Username'] and list_globals['Placement_Password']==form.cleaned_data['Password']:
-                return getPlacement(request)
-            else:
-                form = forms.authentication()
-                return render(request,'diary/Auth.html',{'form':form})
-        else:
-            form = forms.authentication()
-            return render(request, 'diary/Auth.html', {'form': form})
-    else:
-        form = forms.authentication()
-        return render(request, 'diary/Auth.html', {'form': form})
-
-def Intern_Authenticate(request):
-    if request.method=="POST":
-        form = forms.authentication(request.POST)
-        if form.is_valid():
-            if list_globals['Intern_Username']==form.cleaned_data['Username'] and list_globals['Intern_Password']==form.cleaned_data['Password']:
-                return getIntern(request)
-            else:
-                form = forms.authentication()
-                return render(request, 'diary/Auth.html', {'form': form})
-        else:
-            form = forms.authentication()
-            return render(request, 'diary/Auth.html', {'form': form})
-    else:
-        form = forms.authentication()
-        return render(request, 'diary/Auth.html', {'form': form})
-
-
-
-def edit_Placement_ID(request):
-    if request.method=="POST":
-        form = forms.change_username_password(request.POST)
-        if form.is_valid():
-            if list_globals['Placement_Username']==form.cleaned_data['Current_Username'] and list_globals['Placement_Password']==form.cleaned_data['Current_Password']:
-                if form.cleaned_data['New_Password'] == form.cleaned_data['Confirm_Password']:
-                    list_globals['Placement_Username'] = form.cleaned_data['New_Username']
-                    list_globals['Placement_Password'] = form.cleaned_data['New_Password']
-                    return getPlacement(request)
-                else:
-                    form = forms.change_username_password()
-                    return render(request,'diary/edit_ID.html',{'form':form})
-            else:
-                form = forms.change_username_password()
-                return render(request, 'diary/edit_ID.html', {'form': form})
-        else:
-            form = forms.change_username_password()
-            return render(request, 'diary/edit_ID.html', {'form': form})
-    else:
-        form = forms.change_username_password()
-        return render(request, 'diary/edit_ID.html', {'form': form})
-
-
-def edit_Intern_ID(request):
-    if request.method=="POST":
-        form = forms.change_username_password(request.POST)
-        if form.is_valid():
-            if list_globals['Intern_Username']==form.cleaned_data['Current_Username'] and list_globals['Intern_Password']==form.cleaned_data['Current_Password']:
-                if form.cleaned_data['New_Password'] == form.cleaned_data['Confirm_Password']:
-                    list_globals['Intern_Username'] = form.cleaned_data['New_Username']
-                    list_globals['Intern_Password'] = form.cleaned_data['New_Password']
-                    return getPlacement(request)
-                else:
-                    form = forms.change_username_password()
-                    return render(request,'diary/edit_ID.html',{'form':form})
-            else:
-                form = forms.change_username_password()
-                return render(request, 'diary/edit_ID.html', {'form': form})
-        else:
-            form = forms.change_username_password()
-            return render(request, 'diary/edit_ID.html', {'form': form})
-    else:
-        form = forms.change_username_password()
-        return render(request, 'diary/edit_ID.html', {'form': form})
-
+def change_password(request):
+	if request.user.is_authenticated:
+	    if request.method == 'POST':
+	        form = PasswordChangeForm(request.user, request.POST)
+	        if form.is_valid():
+	            user = form.save()
+	            messages.success(request, 'Your password was successfully updated!')
+	            return HttpResponseRedirect(reverse('main_page'))
+	        else:
+	            messages.error(request, 'Please correct the error below.')
+	    else:
+	        form = PasswordChangeForm(request.user)
+	        return render(request, 'diary/edit_ID.html', {
+	        'form': form
+	    })
+	return HttpResponseRedirect(reverse('main_page'))

@@ -13,9 +13,7 @@ urlpatterns = [
     url(r'intern_add_company/$', views.add_intern_company, name='intern_add_company'),
  	url(r'placement/search/$', views.searchPlacement, name='search'),
     url(r'intern/search/$', views.searchIntern, name='search'),
-    url(r'placement/authentication/$',views.Placement_Authenticate,name='Placement_Authenticate'),
-    url(r'intern/authentication/$', views.Intern_Authenticate, name='Intern_Authenticate'),
-    url(r'placement/edit_ID/$', views.edit_Placement_ID, name='edit_Placement_ID'),
-    url(r'intern/edit_ID/$', views.edit_Intern_ID, name='edit_Intern_ID')
+    url(r'logout/$', views.session_logout, name='logout'),
+    url(r'edit_ID/$', views.change_password, name='edit_ID')
 
 ]
