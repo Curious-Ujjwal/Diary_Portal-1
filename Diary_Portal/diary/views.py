@@ -18,6 +18,8 @@ def getPlacement(request):
     if request.POST:
         print("CHECK1")
         print('post', request.POST)
+        if request.user.is_authenticated:
+            return getmainpage(request)
         username = request.POST.get('Username')
         password = request.POST.get('Password')
         print('{} {}'.format(username, password))
@@ -27,7 +29,7 @@ def getPlacement(request):
             if user.is_active:
                 print("CHECK3")
                 login(request, user)
-                return render(request, 'diary/placement_base.html', {'company': list})
+                return HttpResponseRedirect(reverse('main_page'))
             else:
                 print("CHECK4")
                 messages.error(request, 'Invalid Details')
@@ -49,6 +51,8 @@ def getIntern(request):
     if request.POST:
         print("CHECK1")
         print('post', request.POST)
+        if request.user.is_authenticated:
+            return getmainpage(request)
         username = request.POST.get('Username')
         password = request.POST.get('Password')
         print('{} {}'.format(username, password))
@@ -58,7 +62,7 @@ def getIntern(request):
             if user.is_active:
                 print("CHECK3")
                 login(request, user)
-                return render(request, 'diary/intern_base.html', {'company': list})
+                return HttpResponseRedirect(reverse('main_page'))
             else:
                 print("CHECK4")
                 messages.error(request, 'Invalid Details')
